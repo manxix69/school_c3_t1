@@ -38,7 +38,7 @@ public class FacultyServiceImpl implements FacultyService{
         return faculties.remove(id);
     }
     @Override
-    public Collection<Faculty> getFacultiesByAge(String color) {
+    public Collection<Faculty> getFacultiesByColor(String color) {
         return faculties
                 .values()
                 .stream()

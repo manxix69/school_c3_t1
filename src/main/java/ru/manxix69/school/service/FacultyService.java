@@ -13,5 +13,5 @@ public interface FacultyService {
 
     Faculty deleteFaculty(long id);
 
-    Collection<Faculty> getFacultiesByAge(String color);
+    Collection<Faculty> getFacultiesByColor(String color);
 }

@@ -52,6 +52,6 @@ public class FacultyController {
 
     @GetMapping()
     public ResponseEntity<Collection<Faculty>> getFacultiesByColor(String color) {
-        return ResponseEntity.ok(facultyService.getFacultiesByAge(color));
+        return ResponseEntity.ok(facultyService.getFacultiesByColor(color));
     }
 }
