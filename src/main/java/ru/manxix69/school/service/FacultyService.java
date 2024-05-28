@@ -2,6 +2,8 @@ package ru.manxix69.school.service;
 
 import ru.manxix69.school.model.Faculty;
 
+import java.util.Collection;
+
 public interface FacultyService {
     Faculty addFaculty(Faculty faculty);
 
@@ -10,4 +12,6 @@ public interface FacultyService {
     Faculty editFaculty(long id, Faculty faculty);
 
     Faculty deleteFaculty(long id);
+
+    Collection<Faculty> getFacultiesByAge(String color);
 }

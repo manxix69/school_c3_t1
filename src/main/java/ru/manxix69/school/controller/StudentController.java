@@ -49,8 +49,8 @@ public class StudentController {
         return ResponseEntity.ok().build();
     }
 
-//    @GetMapping()
-//    public ResponseEntity<Collection<Student>> getStudentsByAge(int age) {
-//        return ResponseEntity.ok(studentService.getStudentsByAge(age));
-//    }
+    @GetMapping()
+    public ResponseEntity<Collection<Student>> getStudentsByAge(Integer age) {
+        return ResponseEntity.ok(studentService.getStudentsByAge(age));
+    }
 }

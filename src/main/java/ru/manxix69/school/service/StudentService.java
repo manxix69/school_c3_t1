@@ -2,6 +2,8 @@ package ru.manxix69.school.service;
 
 import ru.manxix69.school.model.Student;
 
+import java.util.Collection;
+
 public interface StudentService {
 
     Student addStudent(Student student);
@@ -12,4 +14,5 @@ public interface StudentService {
 
     Student deleteStudent(long id);
 
+    Collection<Student> getStudentsByAge(int age);
 }

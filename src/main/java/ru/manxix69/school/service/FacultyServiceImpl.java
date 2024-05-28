@@ -37,7 +37,7 @@ public class FacultyServiceImpl implements FacultyService{
     public Faculty deleteFaculty(long id) {
         return faculties.remove(id);
     }
-
+    @Override
     public Collection<Faculty> getFacultiesByAge(String color) {
         return faculties
                 .values()

@@ -50,8 +50,8 @@ public class FacultyController {
         return ResponseEntity.ok().build();
     }
 
-    /*@GetMapping()
+    @GetMapping()
     public ResponseEntity<Collection<Faculty>> getFacultiesByColor(String color) {
-        return ResponseEntity.ok(facultyService.getFacultysByAge(color));
-    }*/
+        return ResponseEntity.ok(facultyService.getFacultiesByAge(color));
+    }
 }
