@@ -1,10 +1,12 @@
 package ru.manxix69.school.controller;
 
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.manxix69.school.model.Student;
 import ru.manxix69.school.service.StudentService;
+import ru.manxix69.school.service.StudentServiceImpl;
 
 import java.util.Collection;
 
@@ -20,26 +22,35 @@ public class StudentController {
 
     @PostMapping
     public Student createStudent(@RequestBody Student student) {
-        return studentService.createStudent(student);
+        return studentService.addStudent(student);
     }
 
     @GetMapping("{id}")
-    public Student getStudent(@PathVariable long id) {
-        return studentService.findStudent(id);
+    public ResponseEntity<Student> getStudentInfo(@PathVariable Long id) {
+        Student student = studentService.findStudent(id);
+        if (student == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(student);
     }
 
-    @PutMapping
-    public Student updateStudent(@RequestBody Student student) {
-        return studentService.updateStudent(student);
+    @PutMapping("{id}")
+    public ResponseEntity<Student> editStudent(@RequestBody Student student, @PathVariable Long id) {
+        Student foundStudent = studentService.editStudent(id, student);
+        if (foundStudent == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        return ResponseEntity.ok(foundStudent);
     }
 
     @DeleteMapping("{id}")
-    public Student deleteStudent(@PathVariable long id) {
-        return studentService.deleteStudent(id);
+    public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {
+        studentService.deleteStudent(id);
+        return ResponseEntity.ok().build();
     }
 
-    @GetMapping()
-    public ResponseEntity<Collection<Student>> getStudentsByAge(int age) {
-        return ResponseEntity.ok(studentService.getStudentsByAge(age));
-    }
+//    @GetMapping()
+//    public ResponseEntity<Collection<Student>> getStudentsByAge(int age) {
+//        return ResponseEntity.ok(studentService.getStudentsByAge(age));
+//    }
 }
