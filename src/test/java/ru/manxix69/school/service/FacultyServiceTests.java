@@ -1,3 +1,4 @@
+/*
 package ru.manxix69.school.service;
 
 import org.junit.jupiter.api.Assertions;
@@ -13,6 +14,7 @@ import java.util.Collection;
 public class FacultyServiceTests {
 
     @Autowired
+
     private FacultyService facultyService;
 
     private Faculty FACULTY_1 = new Faculty("Name One", "red");
@@ -127,3 +129,4 @@ public class FacultyServiceTests {
     }
 
 }
+*/

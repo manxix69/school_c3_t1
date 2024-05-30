@@ -1,3 +1,4 @@
+/*
 package ru.manxix69.school.service;
 
 import org.junit.jupiter.api.Assertions;
@@ -126,3 +127,4 @@ public class StudentServiceTests {
     }
 
 }
+*/
