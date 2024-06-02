@@ -3,6 +3,7 @@ package ru.manxix69.school.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.manxix69.school.model.Faculty;
+import ru.manxix69.school.model.Student;
 import ru.manxix69.school.repository.FacultyRepository;
 
 import java.util.*;
@@ -43,6 +44,13 @@ public class FacultyServiceImpl implements FacultyService{
         facultyRepository.deleteById(id);
         return faculty;
     }
+
+    @Override
+    public Collection<Student> getStudentsOfFaculty(long id) {
+        Faculty faculty = facultyRepository.findById(id).orElseThrow(()-> new UnsupportedOperationException());
+        return faculty.getStudents();
+    }
+
     @Override
     public Collection<Faculty> getFacultiesByColor(String color) {
         return facultyRepository.findByColorEquals(color);

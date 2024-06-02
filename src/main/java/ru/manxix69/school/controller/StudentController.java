@@ -4,6 +4,7 @@ package ru.manxix69.school.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.manxix69.school.model.Faculty;
 import ru.manxix69.school.model.Student;
 import ru.manxix69.school.service.StudentService;
 import ru.manxix69.school.service.StudentServiceImpl;
@@ -34,6 +35,15 @@ public class StudentController {
         return ResponseEntity.ok(student);
     }
 
+    @GetMapping("{id}/faculty")
+    public ResponseEntity<Faculty> getStudentFaculty(@PathVariable Long id) {
+        Faculty faculty = studentService.getFacultyOfStudent(id);
+        if (faculty == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(faculty);
+    }
+
     @PutMapping("{id}")
     public ResponseEntity<Student> editStudent(@RequestBody Student student, @PathVariable Long id) {
         Student foundStudent = studentService.editStudent(id, student);
@@ -49,14 +59,14 @@ public class StudentController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping()
+    @GetMapping("{age}")
     public ResponseEntity<Collection<Student>> getStudentsByAge(@RequestParam Integer age) {
         return ResponseEntity.ok(studentService.getStudentsByAge(age));
     }
 
     @GetMapping()
-    public ResponseEntity<Collection<Student>> getStudentsBetweenAge(@RequestParam int minAge,
-                                                                     @RequestParam int maxAge) {
+    public ResponseEntity<Collection<Student>> getStudentsBetweenAge(@RequestParam Integer minAge,
+                                                                     @RequestParam Integer maxAge) {
         return ResponseEntity.ok(studentService.getStudentsBetweenAge(minAge, maxAge));
     }
 }

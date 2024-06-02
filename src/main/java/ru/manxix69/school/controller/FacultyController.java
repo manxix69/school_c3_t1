@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.manxix69.school.model.Faculty;
 import ru.manxix69.school.model.Faculty;
+import ru.manxix69.school.model.Student;
 import ru.manxix69.school.service.FacultyService;
 import ru.manxix69.school.service.FacultyServiceImpl;
 
@@ -50,9 +51,14 @@ public class FacultyController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping()
+    @GetMapping("{color}")
     public ResponseEntity<Collection<Faculty>> getFacultiesByColor(@RequestParam String color) {
         return ResponseEntity.ok(facultyService.getFacultiesByColor(color));
+    }
+
+    @GetMapping("{id}/students")
+    public ResponseEntity<Collection<Student>> getFacultiesByColor(@RequestParam long id) {
+        return ResponseEntity.ok(facultyService.getStudentsOfFaculty(id));
     }
 
     @GetMapping()

@@ -43,6 +43,13 @@ public class StudentServiceImpl implements StudentService{
         studentRepository.deleteById(id);
         return student;
     }
+
+    @Override
+    public Faculty getFacultyOfStudent(long id) {
+        Student student= studentRepository.findById(id).orElseThrow(()-> new UnsupportedOperationException());
+        return student.getFaculty();
+    }
+
     @Override
     public Collection<Student> getStudentsByAge(int age) {
         return studentRepository.findByAgeEquals(age);

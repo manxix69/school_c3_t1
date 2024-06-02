@@ -1,5 +1,6 @@
 package ru.manxix69.school.service;
 
+import ru.manxix69.school.model.Faculty;
 import ru.manxix69.school.model.Student;
 
 import java.util.Collection;
@@ -13,6 +14,8 @@ public interface StudentService {
     Student editStudent(long id, Student student);
 
     Student deleteStudent(long id);
+
+    Faculty getFacultyOfStudent(long id);
 
     Collection<Student> getStudentsByAge(int age);
 
