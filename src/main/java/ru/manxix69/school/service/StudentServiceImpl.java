@@ -1,49 +1,49 @@
 package ru.manxix69.school.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.manxix69.school.model.Faculty;
 import ru.manxix69.school.model.Student;
+import ru.manxix69.school.repository.StudentRepository;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class StudentServiceImpl implements StudentService{
 
-    private Map<Long, Student> students = new HashMap<>();
+    @Autowired
+    private final StudentRepository studentRepository;
 
-    private long count = 0L;
+    public StudentServiceImpl(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
+    }
 
     @Override
     public Student addStudent(Student student) {
-        student.setId(++count);
-        students.put(student.getId(), student);
-        return student;
+        return studentRepository.save(student);
     }
     @Override
     public Student findStudent(long id) {
-        return students.get(id);
+        return studentRepository.findById(id).get();
     }
     @Override
     public Student editStudent(long id , Student student) {
-        if (!students.containsKey(id)) {
+        if (studentRepository.findById(id).isEmpty()) {
             return null;
         }
-        students.put(id, student);
-        return student;
+        return studentRepository.save(student);
     }
     @Override
     public Student deleteStudent(long id) {
-        return students.remove(id);
+        Student student= studentRepository.findById(id).orElse(null);
+        if (student == null) {
+            return null;
+        }
+        studentRepository.deleteById(id);
+        return student;
     }
     @Override
     public Collection<Student> getStudentsByAge(int age) {
-        return students
-                .values()
-                .stream()
-                .filter(student -> student.getAge() == age)
-                .collect(Collectors.toCollection(ArrayList::new));
+        return studentRepository.findByAgeEquals(age);
     }
 }
