@@ -47,7 +47,7 @@ public class FacultyServiceImpl implements FacultyService{
 
     @Override
     public Collection<Student> getStudentsOfFaculty(long id) {
-        Faculty faculty = facultyRepository.findById(id).orElseThrow(()-> new UnsupportedOperationException());
+        Faculty faculty = facultyRepository.findById(id).orElseThrow(()-> new NullPointerException());
         return faculty.getStudents();
     }
 
@@ -60,11 +60,11 @@ public class FacultyServiceImpl implements FacultyService{
     public Collection<Faculty> getFacultiesByNameIgnoreCaseOrColorIgnoreCase(String name, String color) {
         if (       name  != null && !name.isBlank()
                 && color != null && !color.isBlank() ) {
-            facultyRepository.findByNameIgnoreCaseOrColorIgnoreCase(name, color);
+            return facultyRepository.findByNameIgnoreCaseOrColorIgnoreCase(name, color);
         } else if (name  != null && !name.isBlank()) {
-            facultyRepository.findByNameIgnoreCase(name);
+            return facultyRepository.findByNameIgnoreCase(name);
         } else if (color != null && !color.isBlank() ) {
-            facultyRepository.findByColorIgnoreCase(color);
+            return facultyRepository.findByColorIgnoreCase(color);
         }
         return null;
     }

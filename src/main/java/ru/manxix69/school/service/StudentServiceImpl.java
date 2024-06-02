@@ -46,7 +46,7 @@ public class StudentServiceImpl implements StudentService{
 
     @Override
     public Faculty getFacultyOfStudent(long id) {
-        Student student= studentRepository.findById(id).orElseThrow(()-> new UnsupportedOperationException());
+        Student student= studentRepository.findById(id).orElseThrow(()-> new NullPointerException());
         return student.getFaculty();
     }
 

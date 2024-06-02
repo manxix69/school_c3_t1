@@ -10,11 +10,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.manxix69.school.model.Faculty;
+import ru.manxix69.school.model.Student;
 import ru.manxix69.school.repository.FacultyRepository;
 import ru.manxix69.school.repository.StudentRepository;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
@@ -26,9 +29,9 @@ public class FacultyServiceTests {
     @Mock
     private FacultyRepository facultyRepository;
 
-    private Faculty FACULTY_1 = new Faculty(1,"Name One", "red");
-    private Faculty FACULTY_2 = new Faculty(2,"Name Two", "white");
-    private Faculty FACULTY_3 = new Faculty(3,"Name Three", "red");
+    private Faculty FACULTY_1 = new Faculty(1,"Name One", "red", new HashSet<>());
+    private Faculty FACULTY_2 = new Faculty(2,"Name Two", "white", new HashSet<>());
+    private Faculty FACULTY_3 = new Faculty(3,"Name Three", "red", new HashSet<>());
 
 
     @BeforeEach
@@ -144,4 +147,39 @@ public class FacultyServiceTests {
         Assertions.assertTrue(faculty.toString().equals(FACULTY_1.toString()));
     }
 
+
+    @Test
+    public void getStudentsOfFaculty() {
+        Faculty faculty = addFaculty(FACULTY_1);
+
+        Student student = new Student("Economy", 1);
+        Collection<Student> students = new HashSet<>();
+        students.add(student);
+        faculty.setStudents((Set<Student>) students);
+
+        Mockito.when(facultyRepository.findById(FACULTY_1.getId())).thenReturn(null);
+        Assertions.assertThrows(NullPointerException.class, ()-> facultyService.getStudentsOfFaculty(FACULTY_1.getId()));
+
+        Mockito.when(facultyRepository.findById(FACULTY_1.getId())).thenReturn(Optional.ofNullable(FACULTY_1));
+        Assertions.assertEquals(students, facultyService.getStudentsOfFaculty(FACULTY_1.getId()));
+    }
+
+
+    @Test
+    public void getFacultiesByNameIgnoreCaseOrColorIgnoreCase() {
+        Faculty faculty = addFaculty(FACULTY_1);
+        Collection<Faculty> faculties = new HashSet<>();
+        faculties.add(faculty);
+
+        Mockito.when(facultyRepository.findByNameIgnoreCaseOrColorIgnoreCase(FACULTY_1.getName(), FACULTY_1.getColor()) ).thenReturn(faculties);
+        Assertions.assertEquals(faculties, facultyService.getFacultiesByNameIgnoreCaseOrColorIgnoreCase(FACULTY_1.getName(), FACULTY_1.getColor()));
+
+        Mockito.when(facultyRepository.findByNameIgnoreCase(FACULTY_1.getName())).thenReturn(faculties);
+        Assertions.assertEquals(faculties, facultyService.getFacultiesByNameIgnoreCaseOrColorIgnoreCase(FACULTY_1.getName(), null));
+
+        Mockito.when(facultyRepository.findByColorIgnoreCase(FACULTY_1.getColor())).thenReturn(faculties);
+        Assertions.assertEquals(faculties, facultyService.getFacultiesByNameIgnoreCaseOrColorIgnoreCase(null, FACULTY_1.getColor()));
+
+        Assertions.assertNull(facultyService.getFacultiesByNameIgnoreCaseOrColorIgnoreCase(null, null));
+    }
 }

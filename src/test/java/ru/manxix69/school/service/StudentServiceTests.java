@@ -10,10 +10,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.OngoingStubbing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import ru.manxix69.school.model.Faculty;
 import ru.manxix69.school.model.Student;
 import ru.manxix69.school.repository.StudentRepository;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
@@ -142,4 +145,28 @@ public class StudentServiceTests {
         Assertions.assertTrue(student.toString().equals(STUDENT_1.toString()));
     }
 
+    @Test
+    public void getFacultyStudent() {
+        Student student = addStudent(STUDENT_1);
+        Faculty faculty = new Faculty("Economy", "red");
+        student.setFaculty(faculty);
+
+        Mockito.when(studentRepository.findById(STUDENT_1.getId())).thenReturn(null);
+        Assertions.assertThrows(NullPointerException.class, ()-> studentService.getFacultyOfStudent(STUDENT_1.getId()));
+
+        Mockito.when(studentRepository.findById(STUDENT_1.getId())).thenReturn(Optional.ofNullable(STUDENT_1));
+        Assertions.assertEquals(faculty, studentService.getFacultyOfStudent(STUDENT_1.getId()));
+    }
+
+
+    @Test
+    public void getStudentsBetweenAge() {
+        Student student = addStudent(STUDENT_2);
+
+        Collection<Student> students = new HashSet<>();
+        students.add(student);
+
+        Mockito.when(studentRepository.findByAgeBetween(10, 25)).thenReturn(students);
+        Assertions.assertEquals(students, studentService.getStudentsBetweenAge(10,25));
+    }
 }
