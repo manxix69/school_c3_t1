@@ -7,6 +7,7 @@ import ru.manxix69.school.model.Student;
 import ru.manxix69.school.repository.StudentRepository;
 
 import java.util.Collection;
+import java.util.List;
 
 @Service
 public class StudentServiceImpl implements StudentService{
@@ -45,5 +46,10 @@ public class StudentServiceImpl implements StudentService{
     @Override
     public Collection<Student> getStudentsByAge(int age) {
         return studentRepository.findByAgeEquals(age);
+    }
+
+    @Override
+    public Collection<Student> getStudentsBetweenAge(int minAge, int maxAge) {
+        return studentRepository.findByAgeBetween(minAge, maxAge);
     }
 }

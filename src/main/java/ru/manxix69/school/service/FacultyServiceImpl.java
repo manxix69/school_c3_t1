@@ -5,10 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.manxix69.school.model.Faculty;
 import ru.manxix69.school.repository.FacultyRepository;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -49,5 +46,18 @@ public class FacultyServiceImpl implements FacultyService{
     @Override
     public Collection<Faculty> getFacultiesByColor(String color) {
         return facultyRepository.findByColorEquals(color);
+    }
+
+    @Override
+    public Collection<Faculty> getFacultiesByNameIgnoreCaseOrColorIgnoreCase(String name, String color) {
+        if (       name  != null && !name.isBlank()
+                && color != null && !color.isBlank() ) {
+            facultyRepository.findByNameIgnoreCaseOrColorIgnoreCase(name, color);
+        } else if (name  != null && !name.isBlank()) {
+            facultyRepository.findByNameIgnoreCase(name);
+        } else if (color != null && !color.isBlank() ) {
+            facultyRepository.findByColorIgnoreCase(color);
+        }
+        return null;
     }
 }

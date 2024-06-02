@@ -50,7 +50,13 @@ public class StudentController {
     }
 
     @GetMapping()
-    public ResponseEntity<Collection<Student>> getStudentsByAge(Integer age) {
+    public ResponseEntity<Collection<Student>> getStudentsByAge(@RequestParam Integer age) {
         return ResponseEntity.ok(studentService.getStudentsByAge(age));
+    }
+
+    @GetMapping()
+    public ResponseEntity<Collection<Student>> getStudentsBetweenAge(@RequestParam int minAge,
+                                                                     @RequestParam int maxAge) {
+        return ResponseEntity.ok(studentService.getStudentsBetweenAge(minAge, maxAge));
     }
 }
