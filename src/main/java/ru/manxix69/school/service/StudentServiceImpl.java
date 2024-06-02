@@ -2,6 +2,7 @@ package ru.manxix69.school.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.manxix69.school.model.Faculty;
 import ru.manxix69.school.model.Student;
 import ru.manxix69.school.repository.StudentRepository;
 
@@ -34,7 +35,10 @@ public class StudentServiceImpl implements StudentService{
     }
     @Override
     public Student deleteStudent(long id) {
-        Student student = studentRepository.findById(id).get();
+        Student student= studentRepository.findById(id).orElse(null);
+        if (student == null) {
+            return null;
+        }
         studentRepository.deleteById(id);
         return student;
     }
