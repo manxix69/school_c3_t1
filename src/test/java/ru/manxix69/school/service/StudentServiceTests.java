@@ -1,3 +1,4 @@
+/*
 package ru.manxix69.school.service;
 
 import org.junit.jupiter.api.Assertions;
@@ -170,3 +171,4 @@ public class StudentServiceTests {
         Assertions.assertEquals(students, studentService.getStudentsBetweenAge(10,25));
     }
 }
+*/

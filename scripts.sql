@@ -9,7 +9,7 @@ select s.name from student as s;
 select s.* from student as s where upper(s.name) like '%О%';
 
 --4. Получить всех студентов, у которых возраст меньше идентификатора.
-select s.name from student as s where s.age <= 10;
+select s.name from student as s where s.age <= s.id;
 
 --5. Получить всех студентов упорядоченных по возрасту.
 select * from student order by age;

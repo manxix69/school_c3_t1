@@ -2,6 +2,8 @@ package ru.manxix69.school.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.manxix69.school.exception.NotFoundFacultyByIdException;
+import ru.manxix69.school.exception.NotNullIdException;
 import ru.manxix69.school.model.Faculty;
 import ru.manxix69.school.model.Student;
 import ru.manxix69.school.repository.FacultyRepository;
@@ -21,33 +23,34 @@ public class FacultyServiceImpl implements FacultyService{
 
     @Override
     public Faculty addFaculty(Faculty faculty) {
+        if (faculty.getId() != null) {
+            throw new NotNullIdException("При создании нового фальтета не должно быть указано id в переданном запросе на сервер!");
+        }
         return facultyRepository.save(faculty);
     }
 
     @Override
     public Faculty findFaculty(long id) {
-        return facultyRepository.findById(id).get();
+        Faculty faculty = facultyRepository.findById(id).orElse(null);
+        if (faculty == null) {
+            throw new NotFoundFacultyByIdException("Факультет не найден по ID!");
+        }
+        return faculty;
     }
     @Override
-    public Faculty editFaculty(long id, Faculty faculty) {
-        if (facultyRepository.findById(id).isEmpty()) {
-            return null;
-        }
-        return facultyRepository.save(faculty);
+    public Faculty editFaculty(Faculty faculty) {
+        return facultyRepository.save(findFaculty(faculty.getId()));
     }
     @Override
     public Faculty deleteFaculty(long id) {
-        Faculty faculty = facultyRepository.findById(id).orElse(null);
-        if (faculty == null) {
-            return null;
-        }
+        Faculty faculty = findFaculty(id);
         facultyRepository.deleteById(id);
         return faculty;
     }
 
     @Override
     public Collection<Student> getStudentsOfFaculty(long id) {
-        Faculty faculty = facultyRepository.findById(id).orElseThrow(()-> new NullPointerException());
+        Faculty faculty = findFaculty(id);
         return faculty.getStudents();
     }
 
@@ -66,6 +69,6 @@ public class FacultyServiceImpl implements FacultyService{
         } else if (color != null && !color.isBlank() ) {
             return facultyRepository.findByColorIgnoreCase(color);
         }
-        return null;
+        return new HashSet<>() ;
     }
 }

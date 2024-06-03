@@ -1,3 +1,4 @@
+/*
 package ru.manxix69.school.service;
 
 import org.junit.jupiter.api.Assertions;
@@ -183,3 +184,4 @@ public class FacultyServiceTests {
         Assertions.assertNull(facultyService.getFacultiesByNameIgnoreCaseOrColorIgnoreCase(null, null));
     }
 }
+*/

@@ -29,20 +29,12 @@ public class FacultyController {
 
     @GetMapping("{id}")
     public ResponseEntity<Faculty> getFacultyInfo(@PathVariable Long id) {
-        Faculty faculty = facultyService.findFaculty(id);
-        if (faculty == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(faculty);
+        return ResponseEntity.ok(facultyService.findFaculty(id));
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<Faculty> editFaculty(@RequestBody Faculty faculty, @PathVariable Long id) {
-        Faculty foundFaculty = facultyService.editFaculty(id, faculty);
-        if (foundFaculty == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-        return ResponseEntity.ok(foundFaculty);
+    @PutMapping()
+    public ResponseEntity<Faculty> editFaculty(@RequestBody Faculty faculty) {
+        return ResponseEntity.ok(facultyService.editFaculty(faculty));
     }
 
     @DeleteMapping("{id}")
@@ -51,17 +43,17 @@ public class FacultyController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("{color}")
-    public ResponseEntity<Collection<Faculty>> getFacultiesByColor(@RequestParam String color) {
+    @GetMapping("byColor{color}")
+    public ResponseEntity<Collection<Faculty>> getFacultiesByColor(@PathVariable String color) {
         return ResponseEntity.ok(facultyService.getFacultiesByColor(color));
     }
 
     @GetMapping("{id}/students")
-    public ResponseEntity<Collection<Student>> getFacultiesByColor(@RequestParam long id) {
+    public ResponseEntity<Collection<Student>> getFacultiesByColor(@PathVariable Long id) {
         return ResponseEntity.ok(facultyService.getStudentsOfFaculty(id));
     }
 
-    @GetMapping()
+    @GetMapping("byNameOrColor")
     public ResponseEntity<Collection<Faculty>> getFacultiesByNameIgnoreCaseOrColorIgnoreCase(@RequestParam(required = false) String name
                                                                                             , @RequestParam(required = false) String color) {
         return ResponseEntity.ok(facultyService.getFacultiesByNameIgnoreCaseOrColorIgnoreCase(name, color));
