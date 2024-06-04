@@ -1,8 +1,6 @@
 package ru.manxix69.school.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.Objects;
 
@@ -11,10 +9,21 @@ public class Student {
 
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
 
     private String name;
-    private int age;
+    private Integer age;
+
+    @ManyToOne
+    @JoinColumn(name = "faculty_id")
+    private Faculty faculty;
+
+    public Student(long id, String name, int age, Faculty faculty) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.faculty = faculty;
+    }
 
     public Student(long id, String name, int age) {
         this.id = id;
@@ -30,11 +39,11 @@ public class Student {
     public Student() {
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -46,15 +55,21 @@ public class Student {
         this.name = name;
     }
 
-    public int getAge() {
+    public Integer getAge() {
         return age;
     }
 
-    public void setAge(int age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
+    public Faculty getFaculty() {
+        return faculty;
+    }
 
+    public void setFaculty(Faculty faculty) {
+        this.faculty = faculty;
+    }
 
     @Override
     public String toString() {
@@ -62,6 +77,7 @@ public class Student {
                 "age=" + age +
                 ", id=" + id +
                 ", name='" + name + '\'' +
+                ", faculty=" + faculty +
                 '}';
     }
 
@@ -70,11 +86,11 @@ public class Student {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Student student = (Student) o;
-        return id == student.id && age == student.age && Objects.equals(name, student.name);
+        return id == student.id && age == student.age && Objects.equals(name, student.name) && Objects.equals(faculty, student.faculty);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, age);
+        return Objects.hash(id, name, age, faculty);
     }
 }
