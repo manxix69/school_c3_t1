@@ -19,7 +19,7 @@ public class Faculty {
     @OneToMany(mappedBy = "faculty")
     private Set<Student> students;
 
-    public Faculty(long id, String name, String color, Set<Student> students) {
+    public Faculty(Long id, String name, String color, Set<Student> students) {
         this.id = id;
         this.name = name;
         this.color = color;
