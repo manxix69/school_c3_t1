@@ -43,7 +43,7 @@ public class FacultyController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("byColor{color}")
+    @GetMapping("by-color/{color}")
     public ResponseEntity<Collection<Faculty>> getFacultiesByColor(@PathVariable String color) {
         return ResponseEntity.ok(facultyService.getFacultiesByColor(color));
     }
@@ -53,7 +53,7 @@ public class FacultyController {
         return ResponseEntity.ok(facultyService.getStudentsOfFaculty(id));
     }
 
-    @GetMapping("byNameOrColor")
+    @GetMapping("by-name-or-color")
     public ResponseEntity<Collection<Faculty>> getFacultiesByNameIgnoreCaseOrColorIgnoreCase(@RequestParam(required = false) String name
                                                                                             , @RequestParam(required = false) String color) {
         return ResponseEntity.ok(facultyService.getFacultiesByNameIgnoreCaseOrColorIgnoreCase(name, color));
