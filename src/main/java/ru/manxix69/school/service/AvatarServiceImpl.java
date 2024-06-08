@@ -30,7 +30,11 @@ public class AvatarServiceImpl implements AvatarService{
 
     private Avatar findOrCreateAvatar(Long studentId) {
         Avatar avatar = avatarRepository.findByStudentId(studentId);
-        return avatar == null ? new Avatar() : avatar;
+        if (avatar == null) {
+            return new Avatar();
+        } else {
+            return avatar;
+        }
     }
 
     @Override
@@ -46,10 +50,6 @@ public class AvatarServiceImpl implements AvatarService{
     public void uploadAvatar(Long studentId, MultipartFile avatarFile) throws IOException {
 
         Student student = studentService.findStudent(studentId);
-
-        System.out.println("student = " + student);
-        System.out.println("avatarFile = " + avatarFile);
-        System.out.println("avatarsDir = " + avatarsDir);
 
         Path filePath = Path.of(avatarsDir, student + "." + getExtensions(avatarFile.getOriginalFilename()));
         Files.createDirectories(filePath.getParent());

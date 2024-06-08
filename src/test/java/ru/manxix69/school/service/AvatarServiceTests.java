@@ -9,6 +9,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -32,11 +33,11 @@ import java.util.Optional;
 public class AvatarServiceTests {
     @Autowired
     private AvatarService avatarService;
-    @Mock
+    @MockBean
     private StudentService studentService;
-    @Mock
+    @MockBean
     private AvatarRepository avatarRepository;
-    @Mock
+    @MockBean
     private StudentRepository studentRepository;
 
 //    @BeforeEach
@@ -65,17 +66,17 @@ public class AvatarServiceTests {
         byte[] arr = new byte[]{1,2,3,4};
         MultipartFile multipartFile = new MockMultipartFile("TEST_FILE_NAME" , arr);
 
-//        Mockito.when(avatarRepository.findByStudentId(1L)).thenReturn(null);
-//        Mockito.when(studentRepository.findById(1L)).thenReturn(Optional.of(student));
         Mockito.when(studentService.findStudent(1l)).thenReturn(student);
         Mockito.when(studentRepository.findById(1l)).thenReturn(Optional.of(student));
-//        Mockito.when(studentRepository.findById(1l).orElse(null)).thenReturn(student);
 
-        System.out.println(student);
-        System.out.println(student.getId());
-
+        Mockito.when(avatarRepository.findByStudentId(student.getId())).thenReturn(null);
         avatarService.uploadAvatar(student.getId(), multipartFile);
-        Avatar avatar = avatarService.findAvatar(student.getId());
+
+        Avatar avatar = new Avatar();
+        avatar.setData(arr);
+        Mockito.when(avatarRepository.findByStudentId(student.getId())).thenReturn(avatar);
+
+        avatar = avatarService.findAvatar(student.getId());
 
         Assertions.assertEquals(Arrays.toString(avatar.getData()), Arrays.toString(arr));
     }
