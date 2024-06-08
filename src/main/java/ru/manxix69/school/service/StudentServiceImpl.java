@@ -29,7 +29,8 @@ public class StudentServiceImpl implements StudentService{
         return studentRepository.save(student);
     }
     @Override
-    public Student findStudent(long id) {
+    public Student findStudent(Long id) {
+        System.out.println("StudentServiceImpl.findStudent ; id=" + id);
         Student student = studentRepository.findById(id).orElse(null);
         if (student == null) {
             throw new NotFoundStudentByIdException("По переданному Id студент не найден в БД!");
