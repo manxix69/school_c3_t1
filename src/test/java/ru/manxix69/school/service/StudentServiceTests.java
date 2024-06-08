@@ -86,15 +86,15 @@ public class StudentServiceTests {
         Student student = null;
 
         Mockito.when(studentRepository.findById(1l)).thenReturn(Optional.ofNullable(STUDENT_1));
-        student = studentService.findStudent(1);
+        student = studentService.findStudent(1l);
         compareStudents(1, student, STUDENT_1);
 
         Mockito.when(studentRepository.findById(2l)).thenReturn(Optional.ofNullable(STUDENT_2));
-        student = studentService.findStudent(2);
+        student = studentService.findStudent(2l);
         compareStudents(2, student, STUDENT_2);
 
         Mockito.when(studentRepository.findById(3L)).thenReturn(Optional.ofNullable(STUDENT_3));
-        student = studentService.findStudent(3);
+        student = studentService.findStudent(3l);
         compareStudents(3, student, STUDENT_3);
     }
 

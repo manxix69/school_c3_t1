@@ -9,7 +9,7 @@ public interface StudentService {
 
     Student addStudent(Student student);
 
-    Student findStudent(long id);
+    Student findStudent(Long id);
 
     Student editStudent(Student student);
 

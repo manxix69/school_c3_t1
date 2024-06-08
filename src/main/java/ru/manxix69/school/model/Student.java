@@ -18,18 +18,13 @@ public class Student {
     @JoinColumn(name = "faculty_id")
     private Faculty faculty;
 
-    public Student(long id, String name, int age, Faculty faculty) {
+    public Student(String name, int age, Faculty faculty) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.faculty = faculty;
     }
 
-    public Student(long id, String name, int age) {
-        this.id = id;
-        this.name = name;
-        this.age = age;
-    }
 
     public Student(String name, int age) {
         this.name = name;
