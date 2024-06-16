@@ -1,9 +1,6 @@
 package ru.manxix69.school.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 import java.util.Objects;
 import java.util.Set;
@@ -16,7 +13,8 @@ public class Faculty {
     private String name;
     private String color;
 
-    @OneToMany(mappedBy = "faculty")
+
+    @OneToMany(mappedBy = "faculty", cascade = CascadeType.ALL)
     private Set<Student> students;
 
     public Faculty(Long id, String name, String color, Set<Student> students) {
