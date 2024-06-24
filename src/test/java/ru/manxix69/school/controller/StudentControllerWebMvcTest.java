@@ -40,16 +40,14 @@ public class StudentControllerWebMvcTest {
     @Autowired
     private MockMvc mockMvc;
 
-    /*@MockBean
-    private StudentRepository studentRepository;
+//    @MockBean
+//    private StudentRepository studentRepository;
 
-    @SpyBean -- если ставить этот бин то не поднимаются тесты - не понимаю почему
-    private StudentService studentService;*/
+//    @SpyBean //-- если ставить этот бин то не поднимаются тесты - не понимаю почему
+//    private StudentServiceImpl studentService;
 
     @MockBean
     private StudentService studentService;
-    @InjectMocks
-    private StudentController studentController;
 
     private Student studentTest1;
     private Faculty facultyTest1;
@@ -108,13 +106,10 @@ public class StudentControllerWebMvcTest {
         jsonObject.put("id", studentTest1.getId());
         jsonObject.put("name", studentTest1.getName());
         jsonObject.put("age", studentTest1.getAge());
-//        jsonObject.put("faculty", studentTest1);
-        //Как тут можно положить факультете?
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/student")
                         .content(jsonObject.toString())
-//                        .content("{\"id\":52,\"name\":\"TEST_STUDENT\",\"age\":55,\"faculty\":{\"id\":53,\"name\":\"TEST_FACULTY\",\"color\":\"BLACK\",\"students\":[]}}")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -123,7 +118,6 @@ public class StudentControllerWebMvcTest {
                 .andExpect(jsonPath("$.id").value(studentTest1.getId()))
                 .andExpect(jsonPath("$.name").value(studentTest1.getName()))
                 .andExpect(jsonPath("$.age").value(studentTest1.getAge()))
-        //можно ли както проверять сразу json объект передать туда типо просто студенда чтоб в теле проверилось?
         ;
     }
     @Test
@@ -133,13 +127,10 @@ public class StudentControllerWebMvcTest {
         jsonObject.put("id", studentTest1.getId());
         jsonObject.put("name", studentTest1.getName());
         jsonObject.put("age", studentTest1.getAge());
-//        jsonObject.put("faculty", studentTest1);
-        //Как тут можно положить факультете?
 
         mockMvc.perform(MockMvcRequestBuilders
                         .put("/student")
                         .content(jsonObject.toString())
-//                        .content("{\"id\":52,\"name\":\"TEST_STUDENT\",\"age\":55,\"faculty\":{\"id\":53,\"name\":\"TEST_FACULTY\",\"color\":\"BLACK\",\"students\":[]}}")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())

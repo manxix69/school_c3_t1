@@ -80,7 +80,6 @@ public class FacultyControllerWebMvcTest {
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/faculty")
                         .content(jsonObject.toString())
-//                        .content("{\"id\":52,\"name\":\"TEST_STUDENT\",\"color\":55,\"faculty\":{\"id\":53,\"name\":\"TEST_FACULTY\",\"color\":\"BLACK\",\"faculties\":[]}}")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -89,7 +88,6 @@ public class FacultyControllerWebMvcTest {
                 .andExpect(jsonPath("$.id").value(facultyTest1.getId()))
                 .andExpect(jsonPath("$.name").value(facultyTest1.getName()))
                 .andExpect(jsonPath("$.color").value(facultyTest1.getColor()))
-        //можно ли както проверять сразу json объект передать туда типо просто студенда чтоб в теле проверилось?
         ;
     }
     @Test
@@ -99,13 +97,11 @@ public class FacultyControllerWebMvcTest {
         jsonObject.put("id", facultyTest1.getId());
         jsonObject.put("name", facultyTest1.getName());
         jsonObject.put("color", facultyTest1.getColor());
-//        jsonObject.put("faculty", facultyTest1);
-        //Как тут можно положить факультете?
+
 
         mockMvc.perform(MockMvcRequestBuilders
                         .put("/faculty")
                         .content(jsonObject.toString())
-//                        .content("{\"id\":52,\"name\":\"TEST_STUDENT\",\"color\":55,\"faculty\":{\"id\":53,\"name\":\"TEST_FACULTY\",\"color\":\"BLACK\",\"faculties\":[]}}")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
