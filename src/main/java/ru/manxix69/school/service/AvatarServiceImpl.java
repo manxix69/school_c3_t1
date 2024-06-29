@@ -5,6 +5,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.manxix69.school.exception.NotFoundAvatarByStudentIdException;
+import ru.manxix69.school.exception.PageArgumentException;
+import ru.manxix69.school.exception.SizeArgumentException;
 import ru.manxix69.school.model.Avatar;
 import ru.manxix69.school.model.Student;
 import ru.manxix69.school.repository.AvatarRepository;
@@ -13,7 +15,6 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
-import java.util.List;
 
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
@@ -79,6 +80,11 @@ public class AvatarServiceImpl implements AvatarService{
 
     @Override
     public Collection<Avatar> findAllAvatars(Integer page, Integer size) {
+        if (page < 1 ) {
+            throw new PageArgumentException("Номер страницы не может быть меньше 1!");
+        } else if (size < 1) {
+            throw new SizeArgumentException("количество автарок не может быть меньше 1!");
+        }
         PageRequest pageRequest = PageRequest.of(page - 1, size);
         return avatarRepository.findAll(pageRequest).getContent();
     }
