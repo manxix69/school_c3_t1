@@ -1,13 +1,11 @@
 package ru.manxix69.school.controller;
 
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.manxix69.school.model.Faculty;
 import ru.manxix69.school.model.Student;
 import ru.manxix69.school.service.StudentService;
-import ru.manxix69.school.service.StudentServiceImpl;
 
 import java.util.Collection;
 
@@ -59,5 +57,20 @@ public class StudentController {
     public ResponseEntity<Collection<Student>> getStudentsBetweenAge(@RequestParam Integer minAge,
                                                                      @RequestParam Integer maxAge) {
         return ResponseEntity.ok(studentService.getStudentsBetweenAge(minAge, maxAge));
+    }
+
+    @GetMapping("count")
+    public ResponseEntity<Integer> getCountStudents() {
+        return ResponseEntity.ok(studentService.getCountStudents());
+    }
+
+    @GetMapping("average-age")
+    public ResponseEntity<Integer> getAverageAgeStudents() {
+        return ResponseEntity.ok(studentService.getAverageAgeStudents());
+    }
+
+    @GetMapping("last")
+    public ResponseEntity<Collection<Student>> getLastStudents() {
+        return ResponseEntity.ok(studentService.getLastStudents());
     }
 }
