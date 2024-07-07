@@ -1,5 +1,7 @@
 package ru.manxix69.school.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.manxix69.school.exception.NotFoundFacultyByIdException;
@@ -16,6 +18,7 @@ public class FacultyServiceImpl implements FacultyService{
 
     @Autowired
     private final FacultyRepository facultyRepository;
+    private Logger logger = LoggerFactory.getLogger(FacultyServiceImpl.class);
 
     public FacultyServiceImpl(FacultyRepository facultyRepository) {
         this.facultyRepository = facultyRepository;
@@ -23,7 +26,9 @@ public class FacultyServiceImpl implements FacultyService{
 
     @Override
     public Faculty addFaculty(Faculty faculty) {
+        logger.info("Was invoked method addFaculty : faculty={}", faculty);
         if (faculty.getId() != null) {
+            logger.error("An error occurred because faculty have id={}", faculty.getId());
             throw new NotNullIdException("При создании нового фальтета не должно быть указано id в переданном запросе на сервер!");
         }
         return facultyRepository.save(faculty);
@@ -31,19 +36,24 @@ public class FacultyServiceImpl implements FacultyService{
 
     @Override
     public Faculty findFaculty(long id) {
+        logger.info("Was invoked method findFaculty : id={}", id);
         Faculty faculty = facultyRepository.findById(id).orElse(null);
         if (faculty == null) {
+            logger.error("An error occurred because faculty not found by id={}", id);
             throw new NotFoundFacultyByIdException("Факультет не найден по ID!");
         }
+        logger.debug("faculty={}", faculty);
         return faculty;
     }
     @Override
     public Faculty editFaculty(Faculty faculty) {
+        logger.info("Was invoked method editFaculty : faculty={}", faculty);
         findFaculty(faculty.getId());
         return facultyRepository.save(faculty);
     }
     @Override
     public Faculty deleteFaculty(long id) {
+        logger.info("Was invoked method deleteFaculty : id={}", id);
         Faculty faculty = findFaculty(id);
         facultyRepository.deleteById(id);
         return faculty;
@@ -51,25 +61,32 @@ public class FacultyServiceImpl implements FacultyService{
 
     @Override
     public Collection<Student> getStudentsOfFaculty(long id) {
+        logger.info("Was invoked method getStudentsOfFaculty : id={}", id);
         Faculty faculty = findFaculty(id);
         return faculty.getStudents();
     }
 
     @Override
     public Collection<Faculty> getFacultiesByColor(String color) {
-        return facultyRepository.findByColorEquals(color);
+        logger.info("Was invoked method getFacultiesByColor : color={}", color);
+        Collection<Faculty> faculties = facultyRepository.findByColorEquals(color);
+        logger.debug("Number of faculties found = {}", faculties.size());
+        return faculties;
     }
 
     @Override
     public Collection<Faculty> getFacultiesByNameIgnoreCaseOrColorIgnoreCase(String name, String color) {
+        logger.info("Was invoked method getFacultiesByColor : name={},color={}", name,color);
+        Collection<Faculty> foundFaculties = new HashSet<>();
         if (       name  != null && !name.isBlank()
                 && color != null && !color.isBlank() ) {
-            return facultyRepository.findByNameIgnoreCaseOrColorIgnoreCase(name, color);
+            foundFaculties = facultyRepository.findByNameIgnoreCaseOrColorIgnoreCase(name, color);
         } else if (name  != null && !name.isBlank()) {
-            return facultyRepository.findByNameIgnoreCase(name);
+            foundFaculties = facultyRepository.findByNameIgnoreCase(name);
         } else if (color != null && !color.isBlank() ) {
-            return facultyRepository.findByColorIgnoreCase(color);
+            foundFaculties = facultyRepository.findByColorIgnoreCase(color);
         }
-        return new HashSet<>() ;
+        logger.debug("Found faculties by parameters name/color: {}", foundFaculties.size());
+        return foundFaculties ;
     }
 }
