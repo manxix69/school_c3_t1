@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 @Service
@@ -96,8 +97,12 @@ public class StudentServiceImpl implements StudentService{
     @Override
     public Integer getAverageAgeStudents() {
         logger.info("Was invoked method getAverageAgeStudents.");
-        Integer averageAgeStudents = studentRepository.getAverageAgeStudents();
-        logger.debug("Students have averageAge: averageAgeStudents={}", averageAgeStudents);
+        Integer averageAgeStudents = (int) studentRepository.findAll()
+                .stream()
+                .parallel()
+                .flatMapToInt(student -> IntStream.of(student.getAge()))
+                .average().orElse(0.0);
+        logger.debug("Students have averageAge: {}", averageAgeStudents);
         return averageAgeStudents;
     }
 
