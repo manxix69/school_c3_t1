@@ -89,4 +89,17 @@ public class FacultyServiceImpl implements FacultyService{
         logger.debug("Found faculties by parameters name/color: {}", foundFaculties.size());
         return foundFaculties ;
     }
+
+    @Override
+    public String maxLongNameOfFaculty() {
+        logger.info("Was invoked method maxLongNameOfFaculty.");
+        String maxLongName = facultyRepository.findAll()
+                .stream()
+                .parallel()
+                .map(f -> f.getName())
+                .max(Comparator.comparing(String::length))
+                .get();
+        logger.debug("Found longest name : {}", maxLongName);
+        return maxLongName;
+    }
 }
