@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import ru.manxix69.school.model.Student;
 
 import java.util.Collection;
+import java.util.List;
 
 public interface StudentRepository extends JpaRepository<Student, Long> {
 
@@ -20,4 +21,6 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
     @Query(value = "select s.* from student as s order by s.id desc limit 5", nativeQuery = true)
     Collection<Student> getLastStudents();
+
+    List<Student> findAll();
 }

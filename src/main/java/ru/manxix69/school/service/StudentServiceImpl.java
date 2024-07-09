@@ -10,8 +10,11 @@ import ru.manxix69.school.model.Faculty;
 import ru.manxix69.school.model.Student;
 import ru.manxix69.school.repository.StudentRepository;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class StudentServiceImpl implements StudentService{
@@ -104,5 +107,21 @@ public class StudentServiceImpl implements StudentService{
         Collection<Student> lastStudents = studentRepository.getLastStudents();
         logger.debug("Students count lasts: lastStudents={}", lastStudents);
         return lastStudents;
+    }
+
+    @Override
+    public Collection<String> getAllNamesOfStudents(String nameStarts) {
+        logger.info("Was invoked method findAll.");
+        List<Student> students = studentRepository.findAll();
+        logger.debug("Students count: {}", students.size());
+        List<String> names = students
+                .stream()
+                .parallel()
+                .map(s -> s.getName().toUpperCase())
+                .filter(name -> name.toUpperCase().startsWith(nameStarts.toUpperCase()))
+                .sorted()
+                .toList();
+        logger.debug("Students names by nameStarts{} founded: {}", nameStarts, names.size());
+        return names;
     }
 }
