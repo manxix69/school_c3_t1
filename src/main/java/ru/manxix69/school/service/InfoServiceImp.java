@@ -19,6 +19,11 @@ public class InfoServiceImp implements InfoService {
         return port;
     }
 
+    @Override
+    public Integer testStreamParallel() {
+        return 0;
+    }
+
     public void setPort(Integer port) {
         this.port = port;
     }

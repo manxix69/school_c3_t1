@@ -23,4 +23,9 @@ public class InfoController {
         Integer port = infoService.getPort();
         return ResponseEntity.ok(port);
     }
+
+    @GetMapping("test")
+    public ResponseEntity<Integer> testMethod() {
+        return ResponseEntity.ok(infoService.testStreamParallel());
+    }
 }
