@@ -19,4 +19,6 @@ public interface FacultyService {
     Collection<Faculty> getFacultiesByColor(String color);
 
     Collection<Faculty> getFacultiesByNameIgnoreCaseOrColorIgnoreCase(String name, String color);
+
+    String maxLongNameOfFaculty();
 }

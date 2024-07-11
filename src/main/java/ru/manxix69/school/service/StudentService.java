@@ -4,6 +4,7 @@ import ru.manxix69.school.model.Faculty;
 import ru.manxix69.school.model.Student;
 
 import java.util.Collection;
+import java.util.List;
 
 public interface StudentService {
 
@@ -26,4 +27,6 @@ public interface StudentService {
     Integer getAverageAgeStudents();
 
     Collection<Student> getLastStudents();
+
+    Collection<String> getAllNamesOfStudents(String nameStarts);
 }
