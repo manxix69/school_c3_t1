@@ -78,4 +78,16 @@ public class StudentController {
     public ResponseEntity<Collection<String>> getLastStudents(@PathVariable String nameStarts) {
         return ResponseEntity.ok(studentService.getAllNamesOfStudents(nameStarts));
     }
+
+    @GetMapping("print-parallel")
+    public ResponseEntity<Void> printParallelStudents() {
+        studentService.printParallelStudents(6);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("print-synchronized")
+    public ResponseEntity<Void> printSynchronizedStudents() {
+        studentService.printSynchronizedStudents(6);
+        return ResponseEntity.ok().build();
+    }
 }

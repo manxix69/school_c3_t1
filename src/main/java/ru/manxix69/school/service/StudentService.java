@@ -29,4 +29,8 @@ public interface StudentService {
     Collection<Student> getLastStudents();
 
     Collection<String> getAllNamesOfStudents(String nameStarts);
+
+    void printParallelStudents(int size);
+
+    void printSynchronizedStudents(int size);
 }
