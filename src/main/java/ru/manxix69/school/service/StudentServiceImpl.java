@@ -129,4 +129,53 @@ public class StudentServiceImpl implements StudentService{
         logger.debug("Students names by nameStarts{} founded: {}", nameStarts, names.size());
         return names;
     }
+
+    @Override
+    public void printParallelStudents(int size) {
+        logger.info("Was invoked method printParallelStudents :{}",size);
+        List<String> namesList = getAllNamesOfStudents("").stream().limit(size).toList();
+
+        Thread thread2 = createThreadForPrint("thread2", namesList.get(2),namesList.get(3));
+        Thread thread3 = createThreadForPrint("thread3",namesList.get(4),namesList.get(5));
+
+        thread2.start();
+        thread3.start();
+
+        System.out.println("threadMain=" + namesList.get(0));
+        System.out.println("threadMain=" + namesList.get(1));
+    }
+
+    private Thread createThreadForPrint( String threadName, String name1, String name2 ) {
+        logger.info("Was invoked method createThreadForPrint:{}",threadName);
+        return new Thread(() -> {
+            System.out.println(threadName + "=" + name1);
+            System.out.println(threadName + "=" + name2);
+        } );
+    }
+
+    @Override
+    public void printSynchronizedStudents(int size) {
+        logger.info("Was invoked method printSynchronizedStudents :{}",size);
+        List<String> namesList = getAllNamesOfStudents("").stream().limit(size).toList();
+
+        Thread thread2 = createThreadForSynchronizedPrint("thread2", namesList.get(2),namesList.get(3));
+        Thread thread3 = createThreadForSynchronizedPrint("thread3",namesList.get(4),namesList.get(5));
+
+        thread2.start();
+        thread3.start();
+
+        print("threadMain=" + namesList.get(0));
+        print("threadMain=" + namesList.get(1));
+    }
+    private Thread createThreadForSynchronizedPrint( String threadName, String name1, String name2 ) {
+        logger.info("Was invoked method createThreadForSynchronizedPrint:{}",threadName);
+        return new Thread(() -> {
+            print(threadName + "=" + name1);
+            print(threadName + "=" + name2);
+        } );
+    }
+    private synchronized void print(String text) {
+        System.out.println(text);
+    }
+
 }
